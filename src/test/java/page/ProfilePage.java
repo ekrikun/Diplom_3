@@ -22,20 +22,10 @@ public class ProfilePage {
         this.driver = driver;
     }
 
-    @Step("Click profile link")
-    public ProfilePage clickProfileLink() {
-        driver.findElement(profileLink).click();
-        return this;
-    }
     @Step("Сhecking the opening of a personal account")
     public boolean isProfilePageOpen() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         return wait.until(ExpectedConditions.urlContains("/account/profile"));
-    }
-    @Step("Click orders history link")
-    public ProfilePage clickOrdersHistoryLink() {
-        driver.findElement(ordersHistoryLink).click();
-        return this;
     }
 
     @Step("Click logout button")

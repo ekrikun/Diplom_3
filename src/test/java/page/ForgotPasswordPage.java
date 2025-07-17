@@ -14,17 +14,6 @@ public class ForgotPasswordPage {
         this.driver = driver;
     }
 
-    @Step("Fill email field with: {email}")
-    public ForgotPasswordPage fillEmailField(String email) {
-        driver.findElement(emailField).sendKeys(email);
-        return this;
-    }
-
-    @Step("Click recover button")
-    public ForgotPasswordPage clickRecoverButton() {
-        driver.findElement(recoverButton).click();
-        return this;
-    }
 
     @Step("Click login link")
     public LoginPage clickLoginLink() {
