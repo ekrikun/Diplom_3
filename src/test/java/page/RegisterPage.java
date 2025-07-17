@@ -84,4 +84,3 @@ public class RegisterPage {
         return errorElement.isDisplayed() && errorElement.getText().equals(message);
     }
 }
-

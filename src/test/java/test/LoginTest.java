@@ -24,22 +24,19 @@ public class LoginTest {
     private WebDriver driver;
     private MainPage mainPage;
     private LoginPage loginPage;
-    private RegisterPage registerPage;
-    private ForgotPasswordPage forgotPasswordPage;
     private User user;
     private String accessToken;
-    private UserClient userClient = new UserClient();
+    private UserClient userClient;
 
     @Before
     @Step("Setup: Create user via API, open main page")
     public void setUp() throws MalformedURLException {
-        String browser = System.getProperty("browser", "chrome"); // Get browser from system property
+        String browser = System.getProperty("browser", "chrome");
         driver = BrowserFactory.createDriver(browser);
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
-        registerPage = new RegisterPage(driver);
-        forgotPasswordPage = new ForgotPasswordPage(driver);
         user = UserGenerator.generateRandomUser();
+        userClient = new UserClient();
         Response response = userClient.createUser(user);
         accessToken = response.path("accessToken");
         mainPage.openMainPage();
@@ -104,5 +101,3 @@ public class LoginTest {
         assertTrue("Кнопка 'Оформить заказ' должна отображаться после успешного входа", mainPage.isCheckoutButtonDisplayed());
     }
 }
-
-

@@ -12,7 +12,6 @@ import org.openqa.selenium.WebDriver;
 import page.LoginPage;
 import page.MainPage;
 import page.ProfilePage;
-import page.RegisterPage;
 import util.UserGenerator;
 
 import java.net.MalformedURLException;
@@ -23,7 +22,6 @@ public class AccountTests {
     private WebDriver driver;
     private MainPage mainPage;
     private LoginPage loginPage;
-    private RegisterPage registerPage;
     private User user;
     private String accessToken;
     private UserClient userClient = new UserClient();
@@ -35,8 +33,7 @@ public class AccountTests {
         driver = BrowserFactory.createDriver(browser);
         mainPage = new MainPage(driver);
         loginPage = new LoginPage(driver);
-        registerPage = new RegisterPage(driver);
-        profilePage=new ProfilePage(driver);
+        profilePage = new ProfilePage(driver); // Инициализация profilePage
         user = UserGenerator.generateRandomUser();
         Response response = userClient.createUser(user);
         accessToken = response.path("accessToken");

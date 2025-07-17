@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import page.MainPage;
 
 import java.net.MalformedURLException;
@@ -15,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class ConstructorTests {
     private WebDriver driver;
     private MainPage mainPage;
+
     @Before
     public void setUpConstructor() throws MalformedURLException {
         String browser = System.getProperty("browser", "chrome");
@@ -22,27 +25,41 @@ public class ConstructorTests {
         mainPage = new MainPage(driver);
         mainPage.openMainPage();
     }
+
     @Test
     @DisplayName("Go to 'Sauces' section")
     public void goToSaucesSection() {
         mainPage.clickSaucesSectionButton();
 
+        // Добавляем явное ожидание для проверки заголовка
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(mainPage.saucesSectionButton()));
+
         assertTrue("Переход к разделу 'Соусы' не удался: заголовок 'Соусы' не отображается", mainPage.isSaucesHeaderVisible());
     }
+
     @Test
     @DisplayName("Go to 'Buns' section")
     public void goToBunsSection() {
         mainPage.clickSaucesSectionButton();
         mainPage.clickBunsSectionButton();
-        assertTrue("Переход к разделу 'Булки' не удался: заголовок 'Булки' не отображается", mainPage.isBunsHeaderVisible());
 
+        // Добавляем явное ожидание для проверки заголовка
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(mainPage.bunsSectionButton()));
+
+        assertTrue("Переход к разделу 'Булки' не удался: заголовок 'Булки' не отображается", mainPage.isBunsHeaderVisible());
     }
 
     @Test
     @DisplayName("Go to 'Filling' section")
     public void goToFillingSection() {
-
         mainPage.clickFillingsSectionButton();
+
+        // Добавляем явное ожидание для проверки заголовка
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(mainPage.fillingsSectionButton()));
+
         assertTrue("Переход к разделу 'Начинки' не удался: заголовок 'Начинки' не отображается", mainPage.isFillingsHeaderVisible());
     }
 
@@ -52,4 +69,3 @@ public class ConstructorTests {
         driver.quit();
     }
 }
-

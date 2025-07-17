@@ -62,8 +62,14 @@ public class RegisterTest {
         loginPage.clickRegisterLink();
         registerPage.fillRegistrationForm(user.getEmail(), user.getPassword(), user.getName());
         registerPage.clickRegisterButton();
+
+        // Используем данные пользователя, который был зарегистрирован для входа
+        // accessToken нужно получить после регистрации
+        accessToken = userClient.loginUser(new User(user.getEmail(), user.getPassword(), user.getName())).path("accessToken");
+
         assertTrue("Registration should redirect to the login page", registerPage.isRedirectedToLoginPage());
     }
+
 
     @Test
     @DisplayName("Registration with invalid password")

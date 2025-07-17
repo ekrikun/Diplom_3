@@ -14,10 +14,10 @@ public class MainPage {
     private final By loginButton = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By personalAccountButton = By.xpath(".//a[@href='/account']");
     private final By constructorButton = By.xpath(".//p[text()='Конструктор']");
-    private final By stellarBurgersLogo =By.xpath(".//div[@class='AppHeader_header__logo__2D0X2']");
-    private final By bunsSectionButton =By.xpath(".//span[text()='Булки']");
-    private final By saucesSectionButton=By.xpath(".//span[text()='Соусы']");
-    private final By fillingsSectionButton = By.xpath (".//span[text()='Начинки']");
+    private final By stellarBurgersLogo = By.xpath(".//div[@class='AppHeader_header__logo__2D0X2']");
+    private final By bunsSectionButton = By.xpath(".//span[text()='Булки']");
+    private final By saucesSectionButton = By.xpath(".//span[text()='Соусы']");
+    private final By fillingsSectionButton = By.xpath(".//span[text()='Начинки']");
     private final By checkoutButton = By.xpath(".//button[text()='Оформить заказ']");
     private By saucesHeader = By.xpath(".//h2[text()='Соусы']");
     private By fillingsHeader = By.xpath(".//h2[text()='Начинки']");
@@ -32,7 +32,6 @@ public class MainPage {
         driver.get(url);
         return this;
     }
-
 
     @Step("Click login button")
     public LoginPage clickLoginButton() {
@@ -88,6 +87,21 @@ public class MainPage {
         }
     }
 
+    @Step("Get Sauces section button")
+    public WebElement saucesSectionButton() {
+        return driver.findElement(saucesSectionButton);
+    }
+
+    @Step("Get Buns section button")
+    public WebElement bunsSectionButton() {
+        return driver.findElement(bunsSectionButton);
+    }
+
+    @Step("Get Fillings section button")
+    public WebElement fillingsSectionButton() {
+        return driver.findElement(fillingsSectionButton);
+    }
+
     public boolean isConstructorPageOpen() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         boolean bunsVisible = wait.until(ExpectedConditions.visibilityOfElementLocated(bunsHeader)).isDisplayed();
@@ -95,6 +109,7 @@ public class MainPage {
         boolean fillingsVisible = wait.until(ExpectedConditions.visibilityOfElementLocated(fillingsHeader)).isDisplayed();
         return bunsVisible && saucesVisible && fillingsVisible;
     }
+
     @Step("Check Sauces section is visible")
     public boolean isSaucesHeaderVisible() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -105,6 +120,7 @@ public class MainPage {
             return false;
         }
     }
+
     @Step("Check Fillings section is visible")
     public boolean isFillingsHeaderVisible() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -115,6 +131,7 @@ public class MainPage {
             return false;
         }
     }
+
     @Step("Check Buns section is visible")
     public boolean isBunsHeaderVisible() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -126,4 +143,3 @@ public class MainPage {
         }
     }
 }
-
