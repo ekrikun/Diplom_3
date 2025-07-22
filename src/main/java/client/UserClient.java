@@ -7,6 +7,7 @@ import static io.restassured.RestAssured.given;
 
 public class UserClient {
 
+    public static final String BASE_URL = "https://stellarburgers.nomoreparties.site";
     private static final String REGISTER_ENDPOINT = "https://stellarburgers.nomoreparties.site/api/auth/register";
     private static final String LOGIN_ENDPOINT = "https://stellarburgers.nomoreparties.site/api/auth/login";
     private static final String DELETE_ENDPOINT = "https://stellarburgers.nomoreparties.site/api/auth/user";

@@ -1,6 +1,7 @@
 package page;
 
 import io.qameta.allure.Step;
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage {
     private final WebDriver driver;
+
     private final String url ="https://stellarburgers.nomoreparties.site/";
     private final By loginButton = By.xpath(".//button[text()='Войти в аккаунт']");
     private final By personalAccountButton = By.xpath(".//a[@href='/account']");
@@ -22,6 +24,10 @@ public class MainPage {
     private By saucesHeader = By.xpath(".//h2[text()='Соусы']");
     private By fillingsHeader = By.xpath(".//h2[text()='Начинки']");
     private By bunsHeader = By.xpath(".//h2[text()='Булки']");
+    private final By lastFillingInList = By.xpath(".//p[text()='Сыр с астероидной плесенью']");
+    private final By registerLink = By.xpath(".//a[text()='Зарегистрироваться']");
+    private final By forgotPasswordLink = By.xpath (".//a[text()='Восстановить пароль']");
+
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -32,49 +38,6 @@ public class MainPage {
         driver.get(url);
         return this;
     }
-
-    @Step("Click login button")
-    public LoginPage clickLoginButton() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        WebElement loginButtonElement = wait.until(ExpectedConditions.elementToBeClickable(loginButton));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", loginButtonElement);
-        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", loginButtonElement);
-        return new LoginPage(driver);
-    }
-
-    @Step("Click personal account button")
-    public ProfilePage clickPersonalAccountButton() {
-        driver.findElement(personalAccountButton).click();
-        return new ProfilePage(driver);
-    }
-
-    @Step("Click constructor button")
-    public MainPage clickConstructorButton() {
-        driver.findElement(constructorButton).click();
-        return this;
-    }
-
-    @Step("Click Stellar Burgers logo")
-    public MainPage clickStellarBurgersLogo() {
-        driver.findElement(stellarBurgersLogo).click();
-        return this;
-    }
-
-    @Step("Click Buns section button")
-    public void clickBunsSectionButton() {
-        driver.findElement(bunsSectionButton).click();
-    }
-
-    @Step("Click Sauces section button")
-    public void clickSaucesSectionButton() {
-        driver.findElement(saucesSectionButton).click();
-    }
-
-    @Step("Click Fillings section button")
-    public void clickFillingsSectionButton() {
-        driver.findElement(fillingsSectionButton).click();
-    }
-
     @Step("Check if checkout button is displayed")
     public boolean isCheckoutButtonDisplayed() {
         WebDriverWait wait = new WebDriverWait(driver, 2);
@@ -87,21 +50,82 @@ public class MainPage {
         }
     }
 
-    @Step("Get Sauces section button")
-    public WebElement saucesSectionButton() {
-        return driver.findElement(saucesSectionButton);
+    @Step("Кликаем по кнопке Войти в аккаунт")
+    public LoginPage clickLoginButton() {
+        driver.findElement(loginButton).click();
+        return new LoginPage(driver);
     }
 
-    @Step("Get Buns section button")
-    public WebElement bunsSectionButton() {
-        return driver.findElement(bunsSectionButton);
+    @Step("Кликаем по кнопке Личный Кабинет")
+    public void clickPersonalAccountButton() {
+        driver.findElement(personalAccountButton).click();
     }
 
-    @Step("Get Fillings section button")
-    public WebElement fillingsSectionButton() {
-        return driver.findElement(fillingsSectionButton);
+    @Step("Click constructor button")
+    public MainPage clickConstructorButton() {
+        driver.findElement(constructorButton).click();
+        return this;
+    }
+    @Step("Click Stellar Burgers logo")
+    public MainPage clickStellarBurgersLogo() {
+        driver.findElement(stellarBurgersLogo).click();
+        return this;
     }
 
+    @Step("Click register link")
+    public RegisterPage clickRegisterLink() {
+        driver.findElement(registerLink).click();
+        return new RegisterPage(driver);
+    }
+
+    @Step("Click forgot password link")
+    public ForgotPasswordPage clickForgotPasswordLink() {
+        driver.findElement(forgotPasswordLink).click();
+        return new ForgotPasswordPage(driver);
+    }
+
+
+    @Step("Кликаем по разделу Булки")
+    public void clickBunChapter() {
+        driver.findElement(bunsSectionButton).click();
+    }
+
+    @Step("Кликаем о разделу Соусы")
+    public void clickSauceChapter() {
+        driver.findElement(saucesSectionButton).click();
+    }
+
+    @Step("Кликаем о разделу Начинки")
+    public void clickFillingChapter() {
+        driver.findElement(fillingsSectionButton).click();
+    }
+
+    @Step("Проверяем скролла к разделу Булки")
+    public void checkBunChapter () {
+        scrollListDown();
+        String location1 = String.valueOf(driver.findElement(bunsHeader).getLocation());
+        clickBunChapter();
+        String location2 = String.valueOf(driver.findElement(bunsHeader).getLocation());
+        Assert.assertNotEquals(location2, location1);
+
+    }
+
+    @Step("Проверяем скролла к разделу Соусы")
+    public void checkSauceChapter() {
+        scrollListDown();
+        String location1 = String.valueOf(driver.findElement(saucesHeader).getLocation());
+        clickSauceChapter();
+        String location2 = String.valueOf(driver.findElement(saucesHeader).getLocation());
+        Assert.assertNotEquals(location2, location1);
+    }
+
+    @Step("Проверяем скролла к разделу Начинки")
+    public void checkFillingChapter () {
+        String location1 = String.valueOf(driver.findElement(fillingsHeader).getLocation());
+        clickFillingChapter();
+        String location2 = String.valueOf(driver.findElement(fillingsHeader).getLocation());
+        Assert.assertNotEquals(location2, location1);
+    }
     public boolean isConstructorPageOpen() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         boolean bunsVisible = wait.until(ExpectedConditions.visibilityOfElementLocated(bunsHeader)).isDisplayed();
@@ -109,37 +133,10 @@ public class MainPage {
         boolean fillingsVisible = wait.until(ExpectedConditions.visibilityOfElementLocated(fillingsHeader)).isDisplayed();
         return bunsVisible && saucesVisible && fillingsVisible;
     }
+    @Step("Скроллим до нижнего элемента")
+    public void scrollListDown() {
+        WebElement element = driver.findElement(lastFillingInList);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
 
-    @Step("Check Sauces section is visible")
-    public boolean isSaucesHeaderVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(saucesHeader));
-            return true;
-        } catch (org.openqa.selenium.TimeoutException e) {
-            return false;
-        }
-    }
-
-    @Step("Check Fillings section is visible")
-    public boolean isFillingsHeaderVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(fillingsHeader));
-            return true;
-        } catch (org.openqa.selenium.TimeoutException e) {
-            return false;
-        }
-    }
-
-    @Step("Check Buns section is visible")
-    public boolean isBunsHeaderVisible() {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(bunsHeader));
-            return true;
-        } catch (org.openqa.selenium.TimeoutException e) {
-            return false;
-        }
     }
 }
